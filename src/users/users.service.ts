@@ -7,6 +7,7 @@ import { LoginInput } from './dtos/login.dto';
 import { User } from './entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from 'src/jwt/jwt.service';
+import { EditProfileInput } from './dtos/edit-profile.dto';
 
 @Injectable()
 export class UserService {
@@ -59,5 +60,18 @@ export class UserService {
 
   async findById(id: number): Promise<User> {
     return this.users.findOneBy({ id });
+  }
+
+  async editProfile(userId: number, editProfileInput: EditProfileInput) {
+    const user = await this.users.findOneBy({ id: userId });
+    if (editProfileInput.password) {
+      user.password = editProfileInput.password;
+    }
+
+    if (editProfileInput.email) {
+      user.email = editProfileInput.email;
+    }
+
+    return this.users.save(user);
   }
 }
