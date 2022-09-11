@@ -46,7 +46,11 @@ import { MailModule } from './mail/mail.module';
     CommonModule,
     JwtModule.forRoot({ privateKey: process.env.SECRET_KEY }),
     AuthModule,
-    MailModule,
+    MailModule.forRoot({
+      domain: process.env.MAIL_GUN_DOMAIN_NAME,
+      fromEmail: process.env.MAIL_GUN_FROM_EMAIL,
+      apiKey: process.env.MAIL_GUN_API_KEY,
+    }),
   ],
   controllers: [],
   providers: [],

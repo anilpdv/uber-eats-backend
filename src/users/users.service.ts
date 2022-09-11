@@ -10,6 +10,7 @@ import { JwtService } from 'src/jwt/jwt.service';
 import { EditProfileInput } from './dtos/edit-profile.dto';
 import { Verification } from './entities/verification.entity';
 import { VerifyEmailInput } from './dtos/verify-email.dto';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class UserService {
@@ -17,8 +18,8 @@ export class UserService {
     @InjectRepository(User) private readonly users: Repository<User>,
     @InjectRepository(Verification)
     private readonly verfications: Repository<Verification>,
-    private readonly config: ConfigService,
     private readonly jwtService: JwtService,
+    private readonly mailService: MailService,
   ) {}
 
   async createAccount({
@@ -27,7 +28,7 @@ export class UserService {
     role,
   }: CreateAccountInput): Promise<[boolean, string?]> {
     try {
-      const exists = await this.users.findOneBy({ email });
+      const exists = await this.users.findOne({ where: { email } });
       if (exists) {
         return [false, 'user with email already exist'];
       }
@@ -35,7 +36,10 @@ export class UserService {
       const user = await this.users.save(
         this.users.create({ email, password, role }),
       );
-      await this.verfications.save(this.verfications.create({ user }));
+      const verfication = await this.verfications.save(
+        this.verfications.create({ user }),
+      );
+      this.mailService.sendVerificationEmail(user.email, verfication.code);
       return [true];
     } catch (err) {
       return [false, 'unable to create user'];
@@ -81,7 +85,11 @@ export class UserService {
     if (editProfileInput.email) {
       user.email = editProfileInput.email;
       user.verified = false;
-      await this.verfications.save(this.verfications.create({ user }));
+      const verfication = await this.verfications.save(
+        this.verfications.create({ user }),
+      );
+
+      this.mailService.sendVerificationEmail(user.email, verfication.code);
     }
 
     return this.users.save(user);
