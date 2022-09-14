@@ -11,10 +11,10 @@ import { CoreEntity } from 'src/common/entities/core.entity';
 import { Restaurant } from 'src/restaurants/entities/restaurant.entity';
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 
-enum UserRole {
-  Client,
-  Owner,
-  Delivery,
+export enum UserRole {
+  Client = 'Client',
+  Owner = 'Owner',
+  Delivery = 'Delivery',
 }
 
 registerEnumType(UserRole, { name: 'UserRole' });
@@ -40,11 +40,8 @@ export class User extends CoreEntity {
   @Field((type) => Boolean)
   verified: boolean;
 
-  @Field(type => [Restaurant])
-  @OneToMany(
-    type => Restaurant,
-    restaurant => restaurant.owner,
-  )
+  @Field((type) => [Restaurant])
+  @OneToMany((type) => Restaurant, (restaurant) => restaurant.owner)
   restaurants: Restaurant[];
 
   @BeforeInsert()

@@ -1,15 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindManyOptions, Repository } from 'typeorm';
-import * as jwt from 'jsonwebtoken';
+import { Repository } from 'typeorm';
 import { CreateAccountInput } from './dtos/create-account-dto';
 import { LoginInput } from './dtos/login.dto';
 import { User } from './entities/user.entity';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from 'src/jwt/jwt.service';
 import { EditProfileInput } from './dtos/edit-profile.dto';
 import { Verification } from './entities/verification.entity';
-import { VerifyEmailInput } from './dtos/verify-email.dto';
 import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
