@@ -8,7 +8,8 @@ import {
 import * as bcrypt from 'bcrypt';
 import { IsEmail, IsString } from 'class-validator';
 import { CoreEntity } from 'src/common/entities/core.entity';
-import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
+import { Restaurant } from 'src/restaurants/entities/restaurant.entity';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany } from 'typeorm';
 
 enum UserRole {
   Client,
@@ -38,6 +39,13 @@ export class User extends CoreEntity {
   @Column({ default: false })
   @Field((type) => Boolean)
   verified: boolean;
+
+  @Field(type => [Restaurant])
+  @OneToMany(
+    type => Restaurant,
+    restaurant => restaurant.owner,
+  )
+  restaurants: Restaurant[];
 
   @BeforeInsert()
   @BeforeUpdate()

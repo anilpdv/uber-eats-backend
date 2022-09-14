@@ -1,14 +1,26 @@
-import { ArgsType, Field, InputType, PartialType } from '@nestjs/graphql';
-import { CreateRestaurantDto } from './create-restaurant.dto';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { IsString, Length } from 'class-validator';
+import { CoreEntity } from 'src/common/entities/core.entity';
+import { User } from 'src/users/entities/user.entity';
+import { Column, Entity, ManyToOne, OneToMany, RelationId } from 'typeorm';
 
-@InputType()
-class UpdateRestaurantInputType extends PartialType(CreateRestaurantDto) {}
+@InputType('RestaurantInputType', { isAbstract: true })
+@ObjectType()
+@Entity()
+export class Restaurant extends CoreEntity {
+  @Field(type => String)
+  @Column()
+  @IsString()
+  @Length(5)
+  name: string;
 
-@InputType()
-export class UpdateRestaurantDto {
-  @Field((type) => Number)
-  id: number;
+  @Field(type => String)
+  @Column()
+  @IsString()
+  coverImg: string;
 
-  @Field((type) => UpdateRestaurantInputType)
-  data: UpdateRestaurantInputType;
+  @Field(type => String)
+  @Column()
+  @IsString()
+  address: string;
 }
