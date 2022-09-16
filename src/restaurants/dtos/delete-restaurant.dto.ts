@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { MutationOutput } from 'src/common/dtos/output.dto';
+import { CoreOutput } from 'src/common/dtos/output.dto';
 
 @InputType()
 export class DeleteRestaurantInput {
@@ -8,4 +8,4 @@ export class DeleteRestaurantInput {
 }
 
 @ObjectType()
-export class DeleteRestaurantOutput extends MutationOutput {}
+export class DeleteRestaurantOutput extends CoreOutput {}

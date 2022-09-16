@@ -5,7 +5,7 @@ import {
   PartialType,
   PickType,
 } from '@nestjs/graphql';
-import { MutationOutput } from 'src/common/dtos/output.dto';
+import { CoreOutput } from 'src/common/dtos/output.dto';
 import { CreateRestaurantInput } from './create-restaurant.dto';
 import { Restaurant } from './update-restaurant.dto';
 
@@ -16,4 +16,4 @@ export class EditRestaurantInput extends PartialType(CreateRestaurantInput) {
 }
 
 @ObjectType()
-export class EditRestaurantOutput extends MutationOutput {}
+export class EditRestaurantOutput extends CoreOutput {}

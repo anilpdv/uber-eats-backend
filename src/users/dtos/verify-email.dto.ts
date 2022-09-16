@@ -1,9 +1,9 @@
 import { InputType, ObjectType, PartialType, PickType } from '@nestjs/graphql';
-import { MutationOutput } from 'src/common/dtos/output.dto';
+import { CoreOutput } from 'src/common/dtos/output.dto';
 import { Verification } from '../entities/verification.entity';
 
 @ObjectType()
-export class VerifyEmailOutput extends MutationOutput {}
+export class VerifyEmailOutput extends CoreOutput {}
 
 @InputType()
 export class VerifyEmailInput extends PickType(Verification, ['code']) {}

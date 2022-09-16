@@ -19,6 +19,9 @@ import { Verification } from './users/entities/verification.entity';
 import { MailModule } from './mail/mail.module';
 import { Restaurant } from './restaurants/entities/restaurant.entity';
 import { Category } from './restaurants/entities/category.entity';
+import { Dish } from './restaurants/entities/dish.entity';
+import { Order } from './orders/entities/order.entity';
+import { OrderItem } from './orders/entities/order-item.entity';
 
 @Module({
   imports: [
@@ -42,7 +45,15 @@ import { Category } from './restaurants/entities/category.entity';
       database: process.env.DB_NAME,
       synchronize: true,
       logging: true,
-      entities: [User, Verification, Restaurant, Category],
+      entities: [
+        User,
+        Verification,
+        Restaurant,
+        Category,
+        Dish,
+        Order,
+        OrderItem,
+      ],
     }),
     UsersModule,
     CommonModule,
