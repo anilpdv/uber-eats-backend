@@ -8,9 +8,7 @@ import { EmailVar, MailModuleOptions } from './mail.interface';
 export class MailService {
   constructor(
     @Inject(CONFIG_OPTIONS) private readonly options: MailModuleOptions,
-  ) {
-    console.log({ options });
-  }
+  ) {}
 
   private sendEmail(
     subject: string,

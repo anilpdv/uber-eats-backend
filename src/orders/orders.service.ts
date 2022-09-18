@@ -18,6 +18,7 @@ import { GetOrdersInput, GetOrdersOutput } from './dtos/get-orders.dto';
 import { TakeOrderInput, TakeOrderOutput } from './dtos/take-order.dto';
 import { OrderItem } from './entities/order-item.entity';
 import { Order, OrderStatus } from './entities/order.entity';
+import { PubSubModule } from 'src/pub-sub/pub-sub.module';
 
 @Injectable()
 export class OrderService {

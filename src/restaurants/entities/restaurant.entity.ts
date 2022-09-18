@@ -1,27 +1,17 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
-import { IsBoolean, IsOptional, IsString, Length } from 'class-validator';
+import { IsString, Length } from 'class-validator';
+import { CoreEntity } from 'src/common/entities/core.entity';
 import { Order } from 'src/orders/entities/order.entity';
 import { User } from 'src/users/entities/user.entity';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  RelationId,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, RelationId } from 'typeorm';
 import { Category } from './category.entity';
 import { Dish } from './dish.entity';
 
 @InputType('RestaurantInputType', { isAbstract: true })
 @ObjectType()
 @Entity()
-export class Restaurant {
-  @PrimaryGeneratedColumn()
-  @Field((is) => Number)
-  id: number;
-
-  @Field((is) => String)
+export class Restaurant extends CoreEntity {
+  @Field((type) => String)
   @Column()
   @IsString()
   @Length(5)
@@ -32,14 +22,10 @@ export class Restaurant {
   @IsString()
   coverImg: string;
 
-  @Field((is) => String)
+  @Field((type) => String)
   @Column()
   @IsString()
   address: string;
-
-  @Field((type) => [Order])
-  @OneToMany((type) => Order, (order) => order.restaurant)
-  orders: Order[];
 
   @Field((type) => Category, { nullable: true })
   @ManyToOne((type) => Category, (category) => category.restaurants, {
@@ -58,7 +44,19 @@ export class Restaurant {
   @RelationId((restaurant: Restaurant) => restaurant.owner)
   ownerId: number;
 
+  @Field((type) => [Order])
+  @OneToMany((type) => Order, (order) => order.restaurant)
+  orders: Order[];
+
   @Field((type) => [Dish])
   @OneToMany((type) => Dish, (dish) => dish.restaurant)
   menu: Dish[];
+
+  @Field((type) => Boolean)
+  @Column({ default: false })
+  isPromoted: boolean;
+
+  @Field((type) => Date, { nullable: true })
+  @Column({ nullable: true })
+  promotedUntil: Date;
 }
